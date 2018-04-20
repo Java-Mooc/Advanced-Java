@@ -11,11 +11,11 @@ public class Main {
 	public static void main(String[] args) {
 		try {
 			//A tentar conectarmos com o url
-			URL url = new URL("https://java-mooc.github.io/Advanced-Java/ex1.html");
+			URL url = new URL("http://www.columbia.edu/~fdc/sample.html");
 			String textoRecebido = "";
 			
 			//Aqui pedimos a página web em questão
-			url.openConnection();
+			URLConnection conexaoAoWebsite = url.openConnection();
 			
 			//Stream onde recebemos os dados
 			InputStream streamDeLeitura = url.openStream();
