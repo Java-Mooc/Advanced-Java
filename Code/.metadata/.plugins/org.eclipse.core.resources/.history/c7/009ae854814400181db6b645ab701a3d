@@ -1,0 +1,46 @@
+package ppt1;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+
+public class Exercicio {
+	public static void main(String[] args) {
+		ArrayList<String> links = new ArrayList<String>();
+		try {
+			String textoRecebido = getTexto("https://java-mooc.github.io/Advanced-Java/ex3.html");
+		
+			
+			String[] partesDotextoRecebido = textoRecebido.split("<img src=\"");
+			for(int i = 0; i < partesDotextoRecebido.length; i++)
+				links.add(partesDotextoRecebido[i].split("\"")[0]);
+	
+			for(int i = 0; i < links.size(); i++)
+				System.out.println(links.get(i));
+		
+		} catch (Exception e) {
+			System.err.println(e.toString());
+		}
+	}
+
+	private static String getTexto(String link) throws Exception {
+		URL url = new URL(link);
+		
+		//Aqui pedimos a página web em questão
+		url.openConnection();
+		
+		//Stream onde recebemos os dados
+		InputStream streamDeLeitura = url.openStream();
+		//Buffer onde armazenamos os dados
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(streamDeLeitura));
+        
+        String textoDoBuffer;
+        String textoRecebido = ""; 
+        while ((textoDoBuffer = buffer.readLine()) != null) {
+            textoRecebido += textoDoBuffer;
+        }
+		return textoRecebido;
+	}
+}
