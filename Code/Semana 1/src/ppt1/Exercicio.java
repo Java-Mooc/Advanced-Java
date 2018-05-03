@@ -9,7 +9,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
-public class Exercicio1 {
+public class Exercicio {
 	static String mainWebsite = "https://java-mooc.github.io/Advanced-Java/";
 	
 	public static void main(String[] args) {
