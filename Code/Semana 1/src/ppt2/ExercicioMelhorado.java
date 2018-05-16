@@ -20,11 +20,14 @@ public class ExercicioMelhorado {
 		try {
 			String textoRecebido = getTexto("https://java-mooc.github.io/Advanced-Java/ex3.html");
 			String regexToGetLink = "(<img[^>]+src=\")(.+?)(\")"; 
+			//(<img[^>]+src=\") -> group(1)
+			//(.+?) -> group(2)
+			//(\") -> group(3)
 			
 			Pattern regexPattern = Pattern.compile(regexToGetLink);
 			Matcher imagensEncontradas = regexPattern.matcher(textoRecebido);
 			while(imagensEncontradas.find()){
-	            String urlDaImagem = imagensEncontradas.group(1);
+	            String urlDaImagem = imagensEncontradas.group(2);
 	            downloadFile(urlDaImagem);
 	        } //while
 		
