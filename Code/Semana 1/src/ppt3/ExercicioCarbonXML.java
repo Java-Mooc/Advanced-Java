@@ -3,41 +3,57 @@ package ppt3;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 public class ExercicioCarbonXML {
 	public static void main(String[] args) {
 		//Let's see UK's carbon intensity, more info at: https://api.carbonintensity.org.uk/
 		//We are starting by seeing 
-		String cidade = "London";
 		String baseURL = "https://api.carbonintensity.org.uk/xml/intensity";
 		String xml;
 		try {
 			xml = getTexto(baseURL);
-			String resultado = parseXML(xml);
+			Document doc = loadXMLFromString(xml);
+			String resultado = parseXML(doc);
+			System.out.println(resultado);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 		}
 		
 	}
 	
-	private static String parseXML(String xml) {
-		String ret = "";
-		boolean httpCodeOk = xml.contains("<httpCode>200</httpCode>");
-		
-		if(httpCodeOk){
-			Pattern regexPattern = Pattern.compile("(?<=<forecast>)\\d+(?=<\\/forecast>)");
-			Matcher m = regexPattern.matcher("FOO[BAR]");
-			while (m.find()) {
-			    String s = m.group(1);
-			    // s now contains "BAR"
+	private static String parseXML(Document doc) throws Exception {
+		String ret = "";	
+		boolean bEverythingOkay = checkIfHttpCode200(doc);
+		if(bEverythingOkay){
+			Node tagWithValues = doc.getElementsByTagName("intensity").item(0);
+			NodeList values = tagWithValues.getChildNodes();
+			for(int i = 0; i < values.getLength(); i++){
+				Node nodeAtual = values.item(i);
+				ret += nodeAtual.getNodeName() + ": " + nodeAtual.getFirstChild().getTextContent() + "\n";
 			}
 		}
-		
-		return ret;
-		
+		return ret;		
+	}
+	
+	private static boolean checkIfHttpCode200(Document doc) {
+		Node tag = doc.getElementsByTagName("httpCode").item(0);
+		return "200".equals(tag.getTextContent());
+	}
+
+	public static Document loadXMLFromString(String xml) throws Exception
+	{
+	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    DocumentBuilder builder = factory.newDocumentBuilder();
+	    InputSource is = new InputSource(new StringReader(xml));
+	    return builder.parse(is);
 	}
 
 	private static String getTexto(String link) throws Exception {
