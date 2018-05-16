@@ -19,12 +19,12 @@ public class ExercicioMelhorado {
 	public static void main(String[] args) {
 		try {
 			String textoRecebido = getTexto("https://java-mooc.github.io/Advanced-Java/ex3.html");
-			String regexToGetLink = "(?<=<img\\ssrc=\").+?(?=\">)"; 
+			String regexToGetLink = "(<img[^>]+src=\")(.+?)(\")"; 
 			
 			Pattern regexPattern = Pattern.compile(regexToGetLink);
 			Matcher imagensEncontradas = regexPattern.matcher(textoRecebido);
 			while(imagensEncontradas.find()){
-	            String urlDaImagem = imagensEncontradas.group();
+	            String urlDaImagem = imagensEncontradas.group(1);
 	            downloadFile(urlDaImagem);
 	        } //while
 		
@@ -37,7 +37,7 @@ public class ExercicioMelhorado {
 		String regexToGetFilename = "[^\\/]+$";
 		Pattern regexPattern = Pattern.compile(regexToGetFilename);
 		String name = null;
-		String caminhoParaFicheiro = ".\\src\\ppt2\\images";
+		String caminhoParaFicheiro = ".\\src\\ppt2\\images\\";
 		try{
 			Matcher imagensEncontradas = regexPattern.matcher(link);
 			if(imagensEncontradas.find())
