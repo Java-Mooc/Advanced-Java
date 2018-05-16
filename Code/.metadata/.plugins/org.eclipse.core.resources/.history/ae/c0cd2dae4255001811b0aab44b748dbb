@@ -1,0 +1,36 @@
+public class UserInput {
+    
+    public static class TextInput {
+    	protected String characters = "";
+    	public void add(char c){
+    		characters += c;
+    	}
+    	
+    	public String getValue(){
+    		return characters;
+    	}
+    	
+    	
+    }
+
+    public static class NumericInput extends TextInput {
+    	@Override
+    	public void add(char c){
+    		for(int i = 0; i < 10; i++){
+    			System.out.println(c + "\n" + (char) 0 + i);
+    			if(c == (char) 0 + i){
+    				this.characters += c;
+    				break;
+    			}
+    		}
+    	}
+    }
+
+    public static void main(String[] args) {
+        TextInput input = new NumericInput();
+        input.add('1');
+        input.add('a');
+        input.add('0');
+        System.out.println(input.getValue());
+    }
+}
