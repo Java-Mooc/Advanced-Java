@@ -48,8 +48,7 @@ public class ExercicioMelhorado {
 			Matcher imagensEncontradas = regexPattern.matcher(link);
 			if(imagensEncontradas.find())
 				name = imagensEncontradas.group();
-			link = link.replaceFirst("^\\.\\/\\/", "https://java-mooc.github.io/Advanced-Java/");
-			link = link.replaceFirst("^\\.\\/", "https://java-mooc.github.io/Advanced-Java/");
+			link = link.replaceFirst("\\.\\/\\/", "https://java-mooc.github.io/Advanced-Java/");
 			URL website = new URL(link);
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 			FileOutputStream fos = new FileOutputStream(caminhoParaFicheiro + name);
