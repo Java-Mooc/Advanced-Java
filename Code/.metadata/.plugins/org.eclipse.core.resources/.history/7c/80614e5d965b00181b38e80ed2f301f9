@@ -1,0 +1,77 @@
+/**
+ * Source code from the Java Parallel Programming Coursera course.
+ */
+package week3;
+import java.util.Arrays;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveAction;
+
+public class Exercicio {
+	static int sum1, sum2;
+	public static void main(String[] args) {
+	}
+	public static double seqArraySum(double[] x){
+		long startTime = System.nanoTime();
+		sum1 = 0;
+		sum2 = 0;
+		for(int i = 0; i < x.length/2; i++)
+			sum1 += x[i];
+		
+		for(int i = x.length/2 ; i < x.length; i++)
+			sum2 += x[i];
+		
+		double sum = sum1 + sum2;
+		long timeInNanos = System.nanoTime() - startTime;
+		System.out.println("SEQ: " + timeInNanos + "nanosec; sum: " + sum);
+		return sum;
+	}
+}
+
+class SortTask extends RecursiveAction {
+	   final long[] array1; final int lo, hi;
+	   SortTask(long[] array, int lo, int hi) {
+	     this.array1 = array; this.lo = lo; this.hi = hi;
+	   }
+	   SortTask(long[] array) { this(array, 0, array.length); }
+	   protected void compute() {
+	     if (hi - lo < THRESHOLD)
+	       sortSequentially(lo, hi);
+	     else {
+	       int mid = (lo + hi) >>> 1;
+	       invokeAll(new SortTask(array1, lo, mid),
+	                 new SortTask(array1, mid, hi));
+	       merge(lo, mid, hi);
+	     }
+	   }
+	   // implementation details follow:
+	   static final int THRESHOLD = 1000;
+	   void sortSequentially(int lo, int hi) {
+	     Arrays.sort(array1, lo, hi);
+	   }
+	   void merge(int lo, int mid, int hi) {
+	     long[] buf = Arrays.copyOfRange(array1, lo, mid);
+	     for (int i = 0, j = lo, k = mid; i < buf.length; j++)
+	       array1[j] = (k == hi || buf[i] < array1[k]) ?
+	         buf[i++] : array1[k++];
+	   }
+	 }
+	
+	 
+	 class IncrementTask extends RecursiveAction {
+	   final long[] array; final int lo, hi;
+	   IncrementTask(long[] array, int lo, int hi) {
+	     this.array = array; this.lo = lo; this.hi = hi;
+	   }
+	   protected void compute() {
+	     if (hi - lo < THRESHOLD) {
+	       for (int i = lo; i < hi; ++i)
+	         array[i]++;
+	     }
+	     else {
+	       int mid = (lo + hi) >>> 1;
+	       invokeAll(new IncrementTask(array, lo, mid),
+	                 new IncrementTask(array, mid, hi));
+	     }
+	   }
+	   static final int THRESHOLD = 1000;
+	 }

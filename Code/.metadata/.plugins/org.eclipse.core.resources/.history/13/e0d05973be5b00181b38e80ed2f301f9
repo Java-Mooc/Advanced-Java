@@ -1,0 +1,31 @@
+package week3;
+
+import java.util.concurrent.RecursiveAction;
+
+public class SumArray extends RecursiveAction{
+	int lo;
+	int hi;
+	double ans;
+	double[] array;
+	
+	public SumArray(double[] x, int i, int length) {
+		array = x;
+		hi = length;
+		lo = i;
+	}
+
+	@Override
+	protected void compute() {
+		if(hi - lo <= 5)
+			for (int i = lo; i <hi; i++)
+				ans += 1 / array[i];
+		else {
+			SumArray sumArray1 = new SumArray(array, lo, (hi+lo)/2);
+			SumArray sumArray2 = new SumArray(array, (hi+lo)/2, hi);
+			sumArray1.fork();
+			sumArray2.compute();
+			sumArray1.join();
+			ans = sumArray1.ans + sumArray2.ans;
+		}	
+	}
+}
