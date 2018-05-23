@@ -1,6 +1,6 @@
-package week2;
+package week1;
 
-public class Exercicio {
+public class Exercicio2 {
 
 	public static void main(String[] args) {
 		String textoExemplo =

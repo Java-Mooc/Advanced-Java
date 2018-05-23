@@ -7,10 +7,10 @@ import java.util.concurrent.ForkJoinPool;
 
 public class Exercicio {
 	public static void main(String args[]) {
-		//Alterar este valor de acordo com o número de cores do PC, isto indica quantas cores podemos usar em paralelo
+		//Alterar este valor de acordo com o numero de cores do PC, isto indica quantas cores podemos usar em paralelo
 		System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "4");
 		double[] array = createLargeArray();
-		//Vamos correr o código 5 vezes, para podermos comparar com melhor exatidão o tempo que demoramos a calcular a média
+		//Vamos correr o codigo 5 vezes, para podermos comparar com melhor exatidao o tempo que demoramos a calcular a media
 		for(int i = 0; i < 5; i++) {
 			System.out.println("Run " + (i+1) + ":");
 			long t1 = System.nanoTime();
@@ -31,7 +31,7 @@ public class Exercicio {
 	}
 
 	public static double mediaSeq(double[] x){
-		//Forma sequencial de calcular a média
+		//Forma sequencial de calcular a media
 		double sum = 0;
 		for(int i = 0; i < x.length; i++)
 			sum += x[i]/x.length;
@@ -39,7 +39,7 @@ public class Exercicio {
 	}
 	
 	public static double mediaAsync(double[] x){
-		//Forma assíncrona, usando o ForkJoin API
+		//Forma assincrona, usando o ForkJoin API
 		SumArray t = new SumArray(x, 0, x.length);
 		ForkJoinPool.commonPool().invoke(t);
 		return t.resultado; 
@@ -47,7 +47,7 @@ public class Exercicio {
 	
 	
 	public static double[] createLargeArray(){
-		//Um array bem grande, 80 milhões de registos
+		//Um array bem grande, 80 milhoes de registos
 		double[] data = new double[80000000];
 		for (int i = 0; i < data.length; i++)
 			//data[i] = i + 1;
