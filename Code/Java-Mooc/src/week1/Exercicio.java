@@ -10,6 +10,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 
 public class Exercicio {
+	//URL base da página
 	static String mainWebsite = "https://java-mooc.github.io/Advanced-Java/";
 	
 	public static void main(String[] args) {
@@ -35,8 +36,11 @@ public class Exercicio {
 		try{
 			String caminhoParaFicheiro = ".\\src\\week1\\";
 			for(int i = 0; i < links.size(); i++){
+				//nome do ficheiro
 				String nome = getNome(links.get(i));
+				//url para ir buscar o ficheiro
 				URL website = new URL(links.get(i));
+				//transferência e guardar o ficheiro
 				ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 				FileOutputStream fos = new FileOutputStream(caminhoParaFicheiro + nome);
 				fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
@@ -62,7 +66,7 @@ public class Exercicio {
 	private static String getTexto(String link) throws Exception {
 		URL url = new URL(link);
 		
-		//Aqui pedimos a p�gina web em quest�o
+		//Aqui pedimos a pagina web em questao
 		url.openConnection();
 		
 		//Stream onde recebemos os dados

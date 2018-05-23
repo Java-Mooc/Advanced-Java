@@ -16,6 +16,11 @@ class SumArray extends RecursiveAction{
 
 	@Override
 	protected void compute() {
+		//este método é obrigatório ser implementado para podermos utilizar a classe RecursiveAction
+
+		//Sempre que tenhamos mais de 1000 elementos para processar,
+		//fazemos um fork, para calcular a média
+		//Sendo que no final esperamos por todas as threads terminarem (join) e somamos os resultados
 		if(vFim - vInicio <= 1000)
 			for (int i = vInicio; i < vFim; i++)
 				resultado += array[i]/array.length;

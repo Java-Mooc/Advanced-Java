@@ -14,10 +14,10 @@ import java.util.regex.Pattern;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 public class ExercicioMelhorado {
+	//URL base da página
 	static String mainWebsite = "https://java-mooc.github.io/Advanced-Java/";
 	
 	public static void main(String[] args) {
-		long t1 = System.nanoTime();
 		try {
 			String textoRecebido = getTexto("https://java-mooc.github.io/Advanced-Java/ex4.html");
 			String regexToGetLink = "(<img[^>]+src=\")(.+?)(\")"; 
@@ -31,8 +31,6 @@ public class ExercicioMelhorado {
 	            String urlDaImagem = imagensEncontradas.group(2);
 	            downloadFile(urlDaImagem);
 	        } //while
-		t1 = System.nanoTime() - t1;
-		System.out.println(t1 / 1e9 + " seconds");
 		
 		} catch (Exception e) {
 			System.err.println(e.toString());
@@ -46,11 +44,18 @@ public class ExercicioMelhorado {
 		String caminhoParaFicheiro = ".\\src\\week2\\";
 		try{
 			Matcher imagensEncontradas = regexPattern.matcher(link);
+			
+			//caso exista um filename
 			if(imagensEncontradas.find())
 				name = imagensEncontradas.group();
-			link = link.replaceFirst("^\\.\\/\\/", "https://java-mooc.github.io/Advanced-Java/");
-			link = link.replaceFirst("^\\.\\/", "https://java-mooc.github.io/Advanced-Java/");
+
+			//caso seja um caminho relativo, alteramos o ".\\", de modo a ficarmos com o caminho absoluto
+			link = link.replaceFirst("^\\.\\+/", "https://java-mooc.github.io/Advanced-Java/");
+			
+			//acedemos ao url
 			URL website = new URL(link);
+			
+			//fazer o download e save da imagem
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
 			FileOutputStream fos = new FileOutputStream(caminhoParaFicheiro + name);
 			fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
