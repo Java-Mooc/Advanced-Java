@@ -1,0 +1,34 @@
+package week3;
+
+import java.util.concurrent.RecursiveAction;
+import java.util.concurrent.RecursiveTask;
+
+public class SumArray_RT extends RecursiveTask<Double>{
+	int vInicio;
+	int vFim;
+	double[] array;
+	
+	public SumArray_RT(double[] x, int l, int h) {
+		array = x;
+		vFim = h;
+		vInicio = l;
+	}
+
+	@Override
+	protected Double compute() {
+		double resultado = 0;
+		if(vFim - vInicio <= 1000) {
+			for (int i = vInicio; i < vFim; i++)
+				resultado += array[i]/array.length;
+			return resultado;
+		}
+		else {
+			SumArray_RT sumArray1 = new SumArray_RT(array, vInicio, (vInicio + vFim)/2);
+			SumArray_RT sumArray2 = new SumArray_RT(array, (vInicio + vFim)/2, vFim);
+			sumArray1.fork();
+			double v1 = sumArray2.compute();
+			double v2 = sumArray1.join();
+			return v1 + v2;
+		}	
+	}
+}

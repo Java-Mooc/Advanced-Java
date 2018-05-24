@@ -1,0 +1,26 @@
+package week4;
+
+import java.util.concurrent.ForkJoinPool;
+
+import week3.AverageArray_RT;
+
+public class Solution {
+	public static void main(String args[]) {
+		int[] arr = createLargeArray();
+		ModeArray t = new ModeArray(x, 0, x.length);
+		double result = ForkJoinPool.commonPool().invoke(t);
+		return result;
+	}
+	
+	public static int[] createLargeArray(){
+		//Um array bem grande, 80 milhoes de registos
+		//double[] data = new double[80000000];
+		int[] data = new double[8];
+		for (int i = 0; i < data.length; i++){
+			//data[i] = i + 1;
+			data[i] = Math.floor(Math.random() * 2) + 1;
+			System.out.println(data[i]);
+		}
+		return data;
+	}
+}

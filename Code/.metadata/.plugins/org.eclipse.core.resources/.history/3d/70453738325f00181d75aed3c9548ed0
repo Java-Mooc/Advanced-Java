@@ -1,0 +1,24 @@
+package week4;
+
+public class Solution {
+	public static void main(String args[]) {
+		int[] arr = createLargeArray();
+		ModeArray t = new ModeArray(arr, 0, arr.length);
+		int result = t.getModa();
+		System.out.println("Moda: " + result);
+	}
+	
+	public static int[] createLargeArray(){
+		int[] data = new int[80000000];
+		for (int i = 0; i < data.length; i++)
+			data[i] = (int) (Math.random() * 10) + 3;
+		return data;
+	}
+
+	private static void printArray(int[] data, String string) {
+		System.out.println(string);
+		for(int i = 0; i < data.length; i++)
+			System.out.print(data[i] + " ");
+		System.out.println();
+	}
+}
