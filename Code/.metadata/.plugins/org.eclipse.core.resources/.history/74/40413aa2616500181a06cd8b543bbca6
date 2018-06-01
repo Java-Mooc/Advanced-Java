@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class Solution {
 	public static void main(String args[]) {
-		int[] arr = linkToArray();
+		int[] arr = createLargeArray();
 		ModeArray t = new ModeArray(arr, 0, arr.length);
 		long t1 = System.nanoTime();
 		int result = t.getModa();
@@ -35,15 +35,9 @@ public class Solution {
 		return textoRecebido;
 	}
 	
-	static int[] linkToArray() {
+	static int[] linkToArray() throws Exception{
 		int[] ret;
-		String texto = "";
-		try {
-			texto = getTexto("https://java-mooc.github.io/Advanced-Java/finalProject.html");
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		String texto = getTexto("https://java-mooc.github.io/Advanced-Java/finalProject.html");
 		String[] arr = texto.split("<li>|</li>");
 		ArrayList<Integer> arrN = new ArrayList<>();
 		for(int i = 0; i < arr.length; i++)

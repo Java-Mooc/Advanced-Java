@@ -10,6 +10,7 @@ public class ModeArray extends RecursiveTask<int[]>{
 	int vInicio;
 	int vFim;
 	int[] array;
+	int[] valores = new int[20];
 	
 	public ModeArray(int[] x, int l, int h) {
 		array = x;
@@ -18,7 +19,7 @@ public class ModeArray extends RecursiveTask<int[]>{
 	}
 
 	protected int[] compute() {
-		int[] valores = new int[601];
+		int[] valores = new int[20];
 		if(vFim - vInicio <= 1000) {
 			for (int i = vInicio; i < vFim; i++){
 				int valor = array[i];
