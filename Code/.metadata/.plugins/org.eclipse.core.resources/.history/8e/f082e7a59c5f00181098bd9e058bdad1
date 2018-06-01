@@ -1,0 +1,56 @@
+
+public class Main {
+
+	public static void main(String[] args) {
+		System.out.println("Exemplo \"normal\"");
+		int[] arr = {1, 2, 0, 1, 0, 3, 3, 1, 2, 4};
+		System.out.println(getVolume(arr));
+		
+		//Desafio-vos a verificar manualmente se o resultado está certo :^)
+		System.out.println("Exemplo com um array grandinho");
+		long t1 = System.nanoTime();
+		int[] arr2 = arrayGrande();
+		System.out.println(getVolume(arr2));
+		t1 = System.nanoTime() - t1;
+		System.out.println("Demorou " + t1/1e6 + " milisegundos");
+		
+		//Ok, agora temos 2 ciclos for e 4 "if"s melhor que aquele ciclo for
+		//que estava dependente da altura da parede mais alta
+	}
+	
+	static int getVolume(int[] alturas){
+		int volume = 0;
+		int[] maximoPelaEsquerda = new int[alturas.length];
+		int[] maximoPelaDireita = new int[alturas.length];
+		
+		int oMaisAltoAteAgoraE = 0;
+		int oMaisAltoAteAgoraD = 0;
+		for(int i = 0; i < alturas.length; i++){
+			//ESQUERDA
+			if(alturas[i] < oMaisAltoAteAgoraE)
+				maximoPelaEsquerda[i] = oMaisAltoAteAgoraE - alturas[i];
+			else if(alturas[i] > oMaisAltoAteAgoraE)
+				oMaisAltoAteAgoraE = alturas[i];
+			
+			//DIREITA
+			int j = alturas.length - 1 - i;
+			if(alturas[j] < oMaisAltoAteAgoraD)
+				maximoPelaDireita[j] = oMaisAltoAteAgoraD - alturas[j];
+			else if(alturas[j] > oMaisAltoAteAgoraD)
+				oMaisAltoAteAgoraD = alturas[j];
+		}
+		
+		for(int i = 0; i < alturas.length; i++)
+			volume += Math.min(maximoPelaDireita[i], maximoPelaEsquerda[i]);
+		
+		return volume;
+	}
+	
+	public static int[] arrayGrande(){
+		//Um array grande, 1 milhao de registos
+		int[] data = new int[1000000];
+		for (int i = 0; i < data.length; i++)
+			data[i] = (int) (Math.random() * 10 + 1);
+		return data;
+	}
+}
